@@ -10,6 +10,7 @@
 #import "DataSourceViewController.h"
 #import "IBXTableViewDataSource.h"
 #import "IBXTableViewDataItem.h"
+#import "IBXActionSheetDataSource.h"
 #import "SampleItem.h"
 
 @interface ViewController ()
@@ -58,6 +59,27 @@
 - (void)cellDoubleClicked:(NSUInteger)index
 {
     NSLog(@"double clicked");
+    IBXActionSheetDataSource * actionSheetDataSource = [[IBXActionSheetDataSource alloc] init];
+    [actionSheetDataSource setButtonClicked:^(NSUInteger buttonIndex, id value) {
+        NSLog(@"buttonIndex: %d", buttonIndex);
+        NSLog(@"value: %@", value);
+    }];
+    [actionSheetDataSource setButtonValue:@"0button" atIndex:0];
+    [actionSheetDataSource setButtonValue:@"1button" atIndex:1];
+    [actionSheetDataSource setButtonValue:@"2button" atIndex:2];
+    
+    UIActionSheet * sheet = [[UIActionSheet alloc] initWithTitle:@"test"
+                                                        delegate:actionSheetDataSource 
+                                               cancelButtonTitle:nil 
+                                          destructiveButtonTitle:nil
+                                               otherButtonTitles:nil];
+    [sheet addButtonWithTitle:@"llll"];
+    [sheet addButtonWithTitle:@"lll3"];
+    [sheet addButtonWithTitle:@"cancel"];
+    [sheet setCancelButtonIndex:[sheet numberOfButtons] - 1];
+    [sheet showInView:self.view];
+    [sheet release];
+    
 }
 
 - (void)cellMovedFrom:(NSUInteger)source index:(NSUInteger)to
