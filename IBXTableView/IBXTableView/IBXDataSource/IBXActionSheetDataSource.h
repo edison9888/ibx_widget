@@ -10,7 +10,8 @@
 
 @interface IBXActionSheetDataSource : NSObject <UIActionSheetDelegate>
 
-@property (nonatomic, retain) void (^buttonClicked)(NSUInteger, id);
+@property (nonatomic, retain) void (^buttonClicked)(NSUInteger, id, id);
+@property (nonatomic, assign) id target;
 
 - (void)setButtonValue:(id)value atIndex:(NSUInteger)index;
 

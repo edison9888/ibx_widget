@@ -60,7 +60,7 @@
 {
     NSLog(@"double clicked");
     IBXActionSheetDataSource * actionSheetDataSource = [[IBXActionSheetDataSource alloc] init];
-    [actionSheetDataSource setButtonClicked:^(NSUInteger buttonIndex, id value) {
+    [actionSheetDataSource setButtonClicked:^(NSUInteger buttonIndex, id value, id target) {
         NSLog(@"buttonIndex: %d", buttonIndex);
         NSLog(@"value: %@", value);
     }];

@@ -12,7 +12,8 @@
 {
     NSMutableDictionary * _buttonValues;
     
-    void (^_buttonClicked)(NSUInteger, id);
+    void (^_buttonClicked)(NSUInteger, id, id);
+    id _target;
 }
 
 @end
@@ -20,6 +21,7 @@
 @implementation IBXActionSheetDataSource
 
 @synthesize buttonClicked = _buttonClicked;
+@synthesize target = _target;
 
 - (void)dealloc
 {
@@ -40,7 +42,7 @@
 {
     if (buttonIndex != actionSheet.cancelButtonIndex) {
         id value = [_buttonValues objectForKey:[NSString stringWithFormat:@"%d", buttonIndex]];
-        _buttonClicked(buttonIndex, value);
+        _buttonClicked(buttonIndex, value, _target);
     }
 }
 
