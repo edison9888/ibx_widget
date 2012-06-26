@@ -124,7 +124,6 @@
 
 - (void)toggleView
 {    
-        
     [UIView animateWithDuration:DEFAULT_DURATION animations:^(void) {
         if ([self minState]) {
             CGRect frame = self.frame;
@@ -167,12 +166,23 @@
         && [_barDelegate respondsToSelector:@selector(barButtonClicked:withBar:)]) {
         UIButton * button = sender;
         [_barDelegate barButtonClicked:button.tag withBar:self];
-    }    
+    }
 }
 
 - (void)displayButtonClicked:(id)sender
 {
     [self responseButtonTag:sender];
+}
+
+- (void)displayButtonLongPressed:(UILongPressGestureRecognizer *)recoginzer
+{
+    if (recoginzer.state == UIGestureRecognizerStateBegan) {
+        if ([recoginzer.view isKindOfClass:[UIButton class]]
+            && [_barDelegate respondsToSelector:@selector(barButtonLongPressed:withBar:)]) {
+            UIButton * sender = (UIButton *)recoginzer.view;
+            [_barDelegate barButtonLongPressed:sender.tag withBar:self];
+        }
+    }
 }
 
 - (void)optionButtonClicked:(id)sender
@@ -245,6 +255,10 @@
     [button addTarget:self 
                action:@selector(displayButtonClicked:)
      forControlEvents:UIControlEventTouchUpInside];
+    UILongPressGestureRecognizer * longRecognzier = [[UILongPressGestureRecognizer alloc] initWithTarget:self 
+                                                                                                  action:@selector(displayButtonLongPressed:)];
+    [button addGestureRecognizer:longRecognzier];
+    [longRecognzier release];
     [_displayButtons addObject:button];
     [_contentView addSubview:button];
 }

@@ -25,6 +25,10 @@
 - (void)barButtonClicked:(NSInteger)buttonTag 
                  withBar:(IBXApplicationBar *)applicationBar;
 
+@optional
+- (void)barButtonLongPressed:(NSInteger)buttonTag 
+                 withBar:(IBXApplicationBar *)applicationBar;
+
 @end
 
 @interface IBXApplicationBar : UIView
