@@ -137,6 +137,7 @@
                 
         CGRect frame = self.view.frame;
         frame.origin.y = 0;
+        frame.size.height -= 44.f;
         _tableView.frame = frame;
         
         [self.view addSubview:_tableView];

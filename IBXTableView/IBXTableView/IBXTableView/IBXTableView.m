@@ -146,6 +146,35 @@
     [self setNeedsLayout];
 }
 
+#pragma mark - auto scroll
+
+static CGFloat delay = 0.05f;
+static CGFloat skip = 3;
+
+- (void)autoScroll
+{
+    if (_moveCell.frame.origin.y < self.contentOffset.y
+        && self.contentOffset.y > 0) {
+        self.contentOffset = CGPointMake(0, MAX(self.contentOffset.y - skip, 0));
+        if (_moveCell.frame.origin.y > skip) {
+            CGRect frame = _moveCell.frame;
+            frame.origin.y -= skip;
+            _moveCell.frame = frame;
+        }
+    }
+    else if (CGRectGetMaxY(_moveCell.frame) > self.contentOffset.y + self.frame.size.height
+             && self.contentOffset.y + self.frame.size.height < self.contentSize.height) {
+        self.contentOffset = CGPointMake(0, MAX(self.contentOffset.y + skip, 0));
+        if (_moveCell.frame.origin.y + _moveCell.frame.size.height < self.contentSize.height - skip) {
+            CGRect frame = _moveCell.frame;
+            frame.origin.y += skip;
+            _moveCell.frame = frame;
+        }        
+    }
+    
+    [self performSelector:@selector(autoScroll) withObject:nil afterDelay:delay];
+}
+
 #pragma mark - changed
 
 - (void)swipeDetected:(UISwipeGestureRecognizerDirection)direction 
@@ -168,6 +197,8 @@
         [_moveCell setFocus:YES];
         [self bringSubviewToFront:_moveCell];
         
+        [self performSelector:@selector(autoScroll) withObject:nil afterDelay:delay];
+        
         cellStartY = cell.frame.origin.y;
         touchStartY = [recognizer locationInView:self].y;
     }
@@ -187,6 +218,9 @@
         }];
     }
     else if (recognizer.state == UIGestureRecognizerStateEnded) {        
+        
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(autoScroll) object:nil];
+        
         NSUInteger fromIndex = [_cells indexOfObject:_moveCell];
         NSUInteger newIndex = [self indexOfMoveCell];
         
@@ -265,6 +299,7 @@
     IBXTableViewDataItem * item = [dataSource itemAtIndex:index];
     IBXTableViewCell * cell = [item tableViewCell];
     [item updateCell];
+
     cell.delegate = self;
     [_cells insertObject:cell atIndex:index];
     [self addSubview:cell];
