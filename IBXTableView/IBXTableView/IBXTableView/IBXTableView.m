@@ -10,6 +10,8 @@
 #import "IBXTableViewDataItem.h"
 #import "IBXTableViewCell.h"
 
+#define BOTTOM_PADDING 5
+
 @interface IBXTableView () 
 {
     IBXTableViewDataSource * _ibxDataSource;
@@ -94,7 +96,7 @@
     
     _blankButton.frame = CGRectMake(0, y, self.frame.size.width, self.frame.size.height);
         
-    self.contentSize = CGSizeMake(self.contentSize.width, MAX(y, self.frame.size.height+1));    
+    self.contentSize = CGSizeMake(self.contentSize.width, MAX(y + BOTTOM_PADDING, self.frame.size.height + BOTTOM_PADDING));    
 }
 
 - (BOOL)needLayoutFrame
@@ -301,6 +303,11 @@ static CGFloat skip = 3;
                 }
             }
             if (changed) [self layoutFrame];
+        } completion:^(BOOL finished) {
+            if (CGRectGetMaxY(cell.frame) > self.contentOffset.y + self.frame.size.height) {
+                [self setContentOffset:CGPointMake(self.contentOffset.x, CGRectGetMaxY(cell.frame) - self.frame.size.height + BOTTOM_PADDING)
+                              animated:YES];
+            }
         }];
     }];
 }
