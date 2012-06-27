@@ -175,6 +175,38 @@ static CGFloat skip = 3;
     [self performSelector:@selector(autoScroll) withObject:nil afterDelay:delay];
 }
 
+#pragma mark - cell
+
+- (IBXTableViewCell *)allocCellWithItem:(IBXTableViewDataItem *)item
+{
+    IBXTableViewCell * cell = [[item class] allocTableViewCell];
+    cell.delegate = self;        
+    [item updateCell:cell];
+        
+    return cell;
+}
+
+- (IBXTableViewCell *)cellAtIndex:(NSUInteger)index
+{
+    if (index < [_cells count]) {
+        return [_cells objectAtIndex:index];
+    }
+
+    return nil;
+}
+
+- (NSUInteger)indexOfCell:(IBXTableViewCell *)cell
+{
+    int index = 0;
+    for (IBXTableViewCell * tempCell in _cells) {
+        if (cell == tempCell) return index;
+            
+        index++;
+    }
+    
+    return NSNotFound;
+}
+
 #pragma mark - changed
 
 - (void)swipeDetected:(UISwipeGestureRecognizerDirection)direction 
@@ -297,10 +329,7 @@ static CGFloat skip = 3;
           dataSource:(IBXTableViewDataSource *)dataSource
 {
     IBXTableViewDataItem * item = [dataSource itemAtIndex:index];
-    
-    IBXTableViewCell * cell = [IBXTableViewDataItem allocTableViewCell];
-    [item updateCell:cell];
-    cell.delegate = self;
+    IBXTableViewCell * cell = [self allocCellWithItem:item];
     [_cells insertObject:cell atIndex:index];
     [cell release];
     [self addSubview:cell];
@@ -341,9 +370,7 @@ static CGFloat skip = 3;
     [_cells removeAllObjects];
 
     for (IBXTableViewDataItem * item in dataSource) {
-        IBXTableViewCell * cell = [IBXTableViewDataItem allocTableViewCell];
-        cell.delegate = self;
-        [item updateCell:cell];
+        IBXTableViewCell * cell = [self allocCellWithItem:item];
         [_cells addObject:cell];
         [self addSubview:cell];
         [cell release];

@@ -39,6 +39,10 @@ typedef enum {
 - (void)updateUI;
 - (void)layoutFrame;
 
+- (IBXTableViewCell *)allocCellWithItem:(IBXTableViewDataItem *)item;
+- (IBXTableViewCell *)cellAtIndex:(NSUInteger)index;
+- (NSUInteger)indexOfCell:(IBXTableViewCell *)cell;
+
 - (void)removeAnimation:(RemoveAnimationType)type withIndex:(NSInteger)index;
 
 @end
