@@ -297,11 +297,12 @@ static CGFloat skip = 3;
           dataSource:(IBXTableViewDataSource *)dataSource
 {
     IBXTableViewDataItem * item = [dataSource itemAtIndex:index];
-    IBXTableViewCell * cell = [item tableViewCell];
-    [item updateCell];
-
+    
+    IBXTableViewCell * cell = [IBXTableViewDataItem allocTableViewCell];
+    [item updateCell:cell];
     cell.delegate = self;
     [_cells insertObject:cell atIndex:index];
+    [cell release];
     [self addSubview:cell];
     
     cell.alpha = 0;
@@ -324,7 +325,8 @@ static CGFloat skip = 3;
          dataSource:(IBXTableViewDataSource *)dataSource
 {
     IBXTableViewDataItem * item = [dataSource itemAtIndex:index];
-    [item updateCell];
+    IBXTableViewCell * cell = [_cells objectAtIndex:index];
+    [item updateCell:cell];
     [UIView animateWithDuration:0.2 animations:^(void) {
         [self layoutFrame];
     } completion:^(BOOL finished) {
@@ -339,11 +341,12 @@ static CGFloat skip = 3;
     [_cells removeAllObjects];
 
     for (IBXTableViewDataItem * item in dataSource) {
-        IBXTableViewCell * cell = [item tableViewCell];
+        IBXTableViewCell * cell = [IBXTableViewDataItem allocTableViewCell];
         cell.delegate = self;
-        [item updateCell];
+        [item updateCell:cell];
         [_cells addObject:cell];
         [self addSubview:cell];
+        [cell release];
     }
 
     [self updateUI];
@@ -359,8 +362,7 @@ static CGFloat skip = 3;
 
 - (void)removeAnimation:(RemoveAnimationType)type withIndex:(NSInteger)index
 {
-    IBXTableViewDataItem * item = [_ibxDataSource itemAtIndex:index];
-    IBXTableViewCell * cell = [item tableViewCell];
+    IBXTableViewCell * cell = [_cells objectAtIndex:index];
     
     [UIView animateWithDuration:0.2 animations:^(void) {
         CGRect frame = cell.frame;

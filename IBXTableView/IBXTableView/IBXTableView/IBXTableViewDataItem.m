@@ -13,8 +13,6 @@
 {
     NSString * _title;
     NSString * _subTitle;
-    
-    IBXTableViewCell * _cell;
 }
 
 @end
@@ -24,29 +22,22 @@
 @synthesize title = _title;
 @synthesize subTitle = _subTitle;
 
-- (IBXTableViewCell *)tableViewCell
++ (IBXTableViewCell *)allocTableViewCell
 {
-    if (_cell == nil) {
-        _cell = [[IBXTableViewCell alloc] init];
-    }
-    
-    return _cell;
+    return [[IBXTableViewCell alloc] init];
 }
 
-- (void)updateCell
+- (void)updateCell:(IBXTableViewCell *)cell
 {
-    _cell.titleLabel.text = _title;
+    cell.titleLabel.text = _title;
     
-    [_cell layoutSubviews];    
+    [cell layoutSubviews];
 }
 
 - (void)dealloc
 {
     [_title release];
     [_subTitle release];
-    
-#warning Big bug
-//    [_cell release];
     
     [super dealloc];
 }

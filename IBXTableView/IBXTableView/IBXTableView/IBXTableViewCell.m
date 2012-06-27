@@ -44,9 +44,10 @@
 {
     _delegate = nil;
     
-    [_buttonView release];
-    [_titleLabel release];
+#warning small but
+//    [_titleLabel release];
     [_subTitleLabel release];
+    [_buttonView release];
     [_rightIndicator release];
     [_leftIndicator release];
     
@@ -63,6 +64,10 @@
         _buttonView = [[UIScrollView alloc] initWithFrame:CGRectMake(5, DEFAULT_CELL_HEIGHT, 310, 0)];
         _buttonView.backgroundColor = [UIColor blackColor];
         [self addSubview:_buttonView];
+        
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 310, 20)];
+        _titleLabel.backgroundColor = [UIColor redColor];
+        [self addSubview:_titleLabel];
                 
         UILongPressGestureRecognizer * longRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self 
                                                                                                       action:@selector(longReceived:)];
@@ -71,19 +76,6 @@
         
     }
     return self;
-}
-
-#pragma mark - get view
-
-- (UILabel *)titleLabel
-{
-    if (_titleLabel == nil) {
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 310, 20)];
-        _titleLabel.backgroundColor = [UIColor redColor];
-        [self addSubview:_titleLabel];
-    }
-    
-    return _titleLabel;
 }
 
 #pragma mark - gesture
@@ -318,6 +310,5 @@
         self.layer.shadowColor = [UIColor blackColor].CGColor;        
     }
 }
-
 
 @end

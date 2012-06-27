@@ -18,7 +18,8 @@
 @property (nonatomic, assign) NSString * title;
 @property (nonatomic, assign) NSString * subTitle;
 
-- (IBXTableViewCell *)tableViewCell;
-- (void)updateCell;
++ (IBXTableViewCell *)allocTableViewCell;
+
+- (void)updateCell:(IBXTableViewCell *)cell;
 
 @end

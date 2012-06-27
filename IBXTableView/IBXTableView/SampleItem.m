@@ -11,43 +11,40 @@
 
 @interface SampleItem () 
 {
-    IBXTableViewCell * _cell;
 }
 
 @end
 
 @implementation SampleItem
 
-- (IBXTableViewCell *)tableViewCell
++ (IBXTableViewCell *)allocTableViewCell
 {
-    if (_cell == nil) {
-        _cell = [[IBXTableViewCell alloc] init];
+    IBXTableViewCell * cell = [[IBXTableViewCell alloc] init];
         
-        UILabel * rightLabel = [[UILabel alloc] init];
-        rightLabel.text = @"right";
-        [rightLabel sizeToFit];
-        _cell.rightIndicator = rightLabel;
-        [rightLabel release];
-        
-        UILabel * leftLabel = [[UILabel alloc] init];
-        leftLabel.text = @"left";
-        [leftLabel sizeToFit];
-        _cell.leftIndicator = leftLabel;
-        [leftLabel release];
-    }
+    UILabel * rightLabel = [[UILabel alloc] init];
+    rightLabel.text = @"right";
+    [rightLabel sizeToFit];
+    cell.rightIndicator = rightLabel;
+    [rightLabel release];
     
-    return _cell;
+    UILabel * leftLabel = [[UILabel alloc] init];
+    leftLabel.text = @"left";
+    [leftLabel sizeToFit];
+    cell.leftIndicator = leftLabel;
+    [leftLabel release];
+    
+    return cell;
 }
 
-- (void)updateCell
+- (void)updateCell:(IBXTableViewCell *)cell
 {
-    _cell.titleLabel.text = [self title];
+    cell.titleLabel.text = [self title];
     
-    [_cell addButton:[UIImage imageNamed:@"icon_edit.png"] title:@"edit" tag:100];
-    [_cell addButton:nil title:@"share" tag:101];
-    [_cell addRightButton:[UIImage imageNamed:@"icon_trash.png"] title:nil];
+    [cell addButton:[UIImage imageNamed:@"icon_edit.png"] title:@"edit" tag:100];
+    [cell addButton:nil title:@"share" tag:101];
+    [cell addRightButton:[UIImage imageNamed:@"icon_trash.png"] title:nil];
     
-    [_cell layoutSubviews];    
+    [cell layoutSubviews];    
 }
 
 
