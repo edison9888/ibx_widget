@@ -183,7 +183,6 @@ static CGFloat skip = 3;
 {
     IBXTableViewCell * cell = [[item class] allocTableViewCell];
     cell.delegate = self;        
-    [item updateCell:cell];
         
     return cell;
 }
@@ -337,11 +336,13 @@ static CGFloat skip = 3;
 {
     IBXTableViewDataItem * item = [dataSource itemAtIndex:index];
     IBXTableViewCell * cell = [self allocCellWithItem:item];
+    [item updateCell:cell];
     [_cells insertObject:cell atIndex:index];
     CGRect frame = cell.frame;
     frame.origin.y -= frame.size.height;
     cell.frame = frame;
     [self addSubview:cell];
+    [cell release];
     
     [UIView animateWithDuration:0.2 animations:^(void) {
         [self layoutFrame];
@@ -362,22 +363,35 @@ static CGFloat skip = 3;
     [item updateCell:cell];
     [UIView animateWithDuration:0.2 animations:^(void) {
         [self layoutFrame];
-    } completion:^(BOOL finished) {
     }];
 }
 
 - (void)dataChanged:(IBXTableViewDataSource *)dataSource
 {
-    for (IBXTableViewCell * cell in _cells) {
-        [cell removeFromSuperview];
-    }
-    [_cells removeAllObjects];
-
-    for (IBXTableViewDataItem * item in dataSource) {
-        IBXTableViewCell * cell = [self allocCellWithItem:item];
-        [_cells addObject:cell];
-        [self addSubview:cell];
-        [cell release];
+    if ([dataSource count] == 0) {
+        for (IBXTableViewCell * cell in _cells) {
+            [cell removeFromSuperview];
+        }
+        [_cells removeAllObjects];
+    }   
+    else {
+        IBXTableViewDataItem * sampleItem = [dataSource itemAtIndex:0];
+        while ([_cells count] > [dataSource count]) {
+            [[_cells objectAtIndex:0] removeFromSuperview];
+            [_cells removeObjectAtIndex:0];
+        }
+        while ([_cells count] < [dataSource count]) {
+            IBXTableViewCell * cell = [self allocCellWithItem:sampleItem];
+            [_cells addObject:cell];
+            [self addSubview:cell];
+            [cell release];
+        }
+        
+        int index = 0;
+        for (IBXTableViewDataItem * item in dataSource) {
+            IBXTableViewCell * cell = [_cells objectAtIndex:index++];
+            [item updateCell:cell];
+        }
     }
 
     [self updateUI];
