@@ -338,16 +338,13 @@ static CGFloat skip = 3;
     IBXTableViewDataItem * item = [dataSource itemAtIndex:index];
     IBXTableViewCell * cell = [self allocCellWithItem:item];
     [_cells insertObject:cell atIndex:index];
-    [cell release];
+    CGRect frame = cell.frame;
+    frame.origin.y -= frame.size.height;
+    cell.frame = frame;
     [self addSubview:cell];
     
-    cell.alpha = 0;
     [UIView animateWithDuration:0.2 animations:^(void) {
         [self layoutFrame];
-    } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.2 animations:^(void) {
-            cell.alpha = 1; 
-        }];
     }];
 }
 
