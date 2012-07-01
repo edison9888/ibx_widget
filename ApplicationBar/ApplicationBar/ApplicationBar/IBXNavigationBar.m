@@ -57,9 +57,8 @@
 {
     if (_titleLabel == nil) {
         _titleLabel = [[UILabel alloc] init];
-        _titleLabel.frame = CGRectMake(0, 0, self.frame.size.width / 2., self.frame.size.height);
+        _titleLabel.frame = CGRectMake(self.frame.size.width / 4, 0, self.frame.size.width / 2., self.frame.size.height);
         _titleLabel.textAlignment = UITextAlignmentCenter;
-        _titleLabel.center = self.center;
         _titleLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:_titleLabel];
         
