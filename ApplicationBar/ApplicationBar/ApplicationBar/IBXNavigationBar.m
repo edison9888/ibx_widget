@@ -127,19 +127,43 @@
     }
 }
 
+- (void)clearButton:(NavigationBarButtonType)type
+{
+    if (type == NAVIGATION_BAR_BUTTON_LEFT) {
+        [_leftButton removeFromSuperview];
+        [_leftButton release];
+        _leftButton = nil;
+    }
+    else if (type == NAVIGATION_BAR_BUTTON_RIGHT) {
+        [_rightButton removeFromSuperview];
+        [_rightButton release];
+        _rightButton = nil;
+    }
+}
+
 - (void)setButton:(NSString *)title 
        buttonType:(NavigationBarButtonType)type
 {
-    UIButton * button = [self buttonByType:type];
-    [button setTitle:title forState:UIControlStateNormal];
-    [self updateButtonFrame:button];
+    if ([title length] == 0) {
+        [self clearButton:type];
+    }
+    else {
+        UIButton * button = [self buttonByType:type];
+        [button setTitle:title forState:UIControlStateNormal];
+        [self updateButtonFrame:button];
+    }
 }
 
 - (void)setButtonIcon:(UIImage *)image buttonType:(NavigationBarButtonType)type
 {
-    UIButton * button = [self buttonByType:type];
-    [button setImage:image forState:UIControlStateNormal];
-    [self updateButtonFrame:button];
+    if (image == nil) {
+        [self clearButton:type];
+    }
+    else {
+        UIButton * button = [self buttonByType:type];
+        [button setImage:image forState:UIControlStateNormal];
+        [self updateButtonFrame:button];
+    }
 }
 
 - (void)navigationBarButtonClicked:(id)sender

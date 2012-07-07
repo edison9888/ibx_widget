@@ -91,7 +91,7 @@
 
 - (BOOL)confirmDelete
 {
-    return self.frame.origin.x > self.frame.size.width / 4.;
+    return self.frame.origin.x > self.frame.size.width / 5.;
 }
 
 - (void)resizeWithToggle
