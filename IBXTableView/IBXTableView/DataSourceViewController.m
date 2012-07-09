@@ -46,12 +46,15 @@
         _tableView.delegate = _ibxDataSource;
         
         IBXTableViewItem * item = [[IBXTableViewItem alloc] init];
+        IBXTableViewSection * section = [[IBXTableViewSection alloc] init];
         item.title = @"test";
         item.detail = @"has detail";
         item.itemClicked = ^(void) {
             NSLog(@"item clicked");
         };
-        [_ibxDataSource addItem:item];
+        [section addItem:item];
+        [_ibxDataSource addSection:section];
+        [section release];
         [item release];
         
         item = [[IBXTableViewItem alloc] init];
@@ -60,16 +63,12 @@
         item.itemClicked = ^(void) {
             NSLog(@"item clicked");
         };
-        [_ibxDataSource addItem:item atSection:1];
+        section = [[IBXTableViewSection alloc] init];
+        [section addItem:item];
+        [_ibxDataSource addSection:section];
+        [section release];
         [item release];
 
-        [_ibxDataSource addItem:@"ttt" 
-                         detail:nil 
-                  accessoryType:UITableViewCellAccessoryCheckmark 
-                    itemClicked:^(void) {
-            NSLog(@"hello ttt");
-        }];
-        
         static NSString * KEY_FOR_TEST_ENABLE = @"key_for_test_enable";
         IBXTableViewEnableItem * enableItem = [[IBXTableViewEnableItem alloc] init];
         enableItem.title = @"enable";
@@ -80,7 +79,7 @@
             [[NSUserDefaults standardUserDefaults] setBool:newValue forKey:KEY_FOR_TEST_ENABLE];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }];
-        [_ibxDataSource addItem:enableItem];
+        [[_ibxDataSource sectionAtIndex:0] addItem:enableItem];
         
         [self.view addSubview:_tableView];
     }

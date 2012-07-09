@@ -8,29 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-#import "IBXTableViewItem.h"
-
+#import "IBXTableViewSection.h"
 
 @interface IBXDataSource : NSObject <UITableViewDataSource, UITableViewDelegate>
 
-
-- (void)addSection:(NSString *)sectionTitle;
-
-- (void)addItem:(IBXTableViewItem *)item
-      atSection:(NSUInteger)section;
-- (void)insertItem:(IBXTableViewItem *)item
-         atSection:(NSUInteger)section
-           atIndex:(NSUInteger)index;
-- (void)addItem:(IBXTableViewItem *)item;
-
-- (void)removeItem:(NSIndexPath *)indexPath;
-
-- (void)addItem:(NSString *)title
-         detail:(NSString *)detail 
-  accessoryType:(UITableViewCellAccessoryType)type
-    itemClicked:(void (^)(void))itemClicked;
-
-- (NSIndexPath *)indexPathForItem:(IBXTableViewItem *)item;
-- (IBXTableViewItem *)itemFromIndexPath:(NSIndexPath *)indexPath;
+- (void)addSection:(IBXTableViewSection *)section;
+- (void)removeSection:(IBXTableViewSection *)section;
+- (IBXTableViewSection *)sectionAtIndex:(NSUInteger)index;
 
 @end

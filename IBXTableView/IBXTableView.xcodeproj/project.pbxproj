@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		070218EE15AABEE300B7D2E1 /* IBXTableViewSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 070218ED15AABEE300B7D2E1 /* IBXTableViewSection.m */; };
 		0706A3C115308BBF00C62FB6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0706A3C015308BBF00C62FB6 /* UIKit.framework */; };
 		0706A3C315308BBF00C62FB6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0706A3C215308BBF00C62FB6 /* Foundation.framework */; };
 		0706A3C515308BBF00C62FB6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0706A3C415308BBF00C62FB6 /* CoreGraphics.framework */; };
@@ -32,6 +33,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		070218EC15AABEE300B7D2E1 /* IBXTableViewSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IBXTableViewSection.h; path = IBXDataSource/IBXTableViewSection.h; sourceTree = "<group>"; };
+		070218ED15AABEE300B7D2E1 /* IBXTableViewSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IBXTableViewSection.m; path = IBXDataSource/IBXTableViewSection.m; sourceTree = "<group>"; };
 		0706A3BC15308BBF00C62FB6 /* IBXTableView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IBXTableView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0706A3C015308BBF00C62FB6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0706A3C215308BBF00C62FB6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -180,6 +183,8 @@
 				07858C6015384D8300090518 /* IBXDataSource.m */,
 				0718B3D115425D8A005B2A50 /* IBXTableViewEnableItem.h */,
 				0718B3D215425D8A005B2A50 /* IBXTableViewEnableItem.m */,
+				070218EC15AABEE300B7D2E1 /* IBXTableViewSection.h */,
+				070218ED15AABEE300B7D2E1 /* IBXTableViewSection.m */,
 			);
 			name = IBXDataSource;
 			sourceTree = "<group>";
@@ -271,6 +276,7 @@
 				071F0ADD1538586A004F2FBC /* IBXTableViewItem.m in Sources */,
 				0718B3D315425D8A005B2A50 /* IBXTableViewEnableItem.m in Sources */,
 				072C2A131596EE2B0067102B /* IBXActionSheetDataSource.m in Sources */,
+				070218EE15AABEE300B7D2E1 /* IBXTableViewSection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
