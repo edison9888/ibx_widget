@@ -11,6 +11,7 @@
 #define DEFAULT_PADDING    10
 #define HIDE_BUTTON_HEIGHT 480
 #define DEFAULT_DURATION   0.2
+#define HIDE_BUTTON_ALPHA  0.3
 
 @interface IBXApplicationBar ()
 {
@@ -73,6 +74,8 @@
         [_hideButton addTarget:self 
                         action:@selector(toggleView) 
               forControlEvents:UIControlEventTouchUpInside];
+        _hideButton.backgroundColor = [UIColor blackColor];
+        _hideButton.alpha = 0;
         [self addSubview:_hideButton];
         [self sendSubviewToBack:_hideButton];
         
@@ -122,21 +125,32 @@
     return (self.frame.size.height == IBX_APPLICATION_BAR_DEFAULT_HEIGHT);
 }
 
-- (void)toggleView
-{    
+- (void)showView
+{
     [UIView animateWithDuration:DEFAULT_DURATION animations:^(void) {
-        if ([self minState]) {
-            CGRect frame = self.frame;
-            frame.size.height = IBX_APPLICATION_BAR_DEFAULT_HEIGHT + [self heightForOptionButtons] + HIDE_BUTTON_HEIGHT;
-            frame.origin.y -= [self heightForOptionButtons] + HIDE_BUTTON_HEIGHT;
-            self.frame = frame;
+        CGRect frame = self.frame;
+        frame.size.height = IBX_APPLICATION_BAR_DEFAULT_HEIGHT + [self heightForOptionButtons] + HIDE_BUTTON_HEIGHT;
+        frame.origin.y -= [self heightForOptionButtons] + HIDE_BUTTON_HEIGHT;
+        self.frame = frame;
             
-            frame = _contentView.frame;
-            frame.size.height = IBX_APPLICATION_BAR_DEFAULT_HEIGHT + [self heightForOptionButtons];
-            frame.origin.y += HIDE_BUTTON_HEIGHT;
-            _contentView.frame = frame;
-        }
-        else {
+        frame = _contentView.frame;
+        frame.size.height = IBX_APPLICATION_BAR_DEFAULT_HEIGHT + [self heightForOptionButtons];
+        frame.origin.y += HIDE_BUTTON_HEIGHT;
+        _contentView.frame = frame;
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:DEFAULT_DURATION animations:^{
+            _hideButton.alpha = HIDE_BUTTON_ALPHA;
+        }];
+    }];
+}
+     
+
+- (void)hideView
+{
+    [UIView animateWithDuration:DEFAULT_DURATION animations:^{
+        _hideButton.alpha = 0;
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:DEFAULT_DURATION animations:^(void) {
             CGRect frame = self.frame;
             frame.size.height = IBX_APPLICATION_BAR_DEFAULT_HEIGHT;
             frame.origin.y += [self heightForOptionButtons] + HIDE_BUTTON_HEIGHT;
@@ -146,16 +160,22 @@
             frame.size.height = IBX_APPLICATION_BAR_DEFAULT_HEIGHT + [self heightForOptionButtons];
             frame.origin.y -= HIDE_BUTTON_HEIGHT;
             _contentView.frame = frame;
-        }
-    } completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.15 animations:^(void) {
-                _hideButton.alpha = [self minState] ? 0 : 0.3;
-             }];
-        
-        for (UIButton * displayButton in _displayButtons) {
-            displayButton.enabled = [self minState];
-        }
+        }];
     }];
+}
+
+- (void)toggleView
+{    
+    for (UIButton * displayButton in _displayButtons) {
+        displayButton.enabled = ![self minState];
+    } 
+    
+    if ([self minState]) {
+        [self showView];
+    }
+    else {
+        [self hideView];
+    }
 }
 
 - (void)responseButtonTag:(id)sender
