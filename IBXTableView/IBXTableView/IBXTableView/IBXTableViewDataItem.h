@@ -21,5 +21,6 @@
 + (IBXTableViewCell *)allocTableViewCell;
 
 - (void)updateCell:(IBXTableViewCell *)cell;
+- (void)updateCellButtons:(IBXTableViewCell *)cell;
 
 @end

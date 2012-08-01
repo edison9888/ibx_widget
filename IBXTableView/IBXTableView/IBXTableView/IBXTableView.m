@@ -287,7 +287,11 @@ static CGFloat skip = 3;
 }
 
 - (void)toggled:(IBXTableViewCell *)cell
-{
+{  
+    NSUInteger index = [self indexOfCell:cell];
+    IBXTableViewDataItem * item = [_ibxDataSource itemAtIndex:index];
+    [item updateCellButtons:cell];
+    
     [UIView animateWithDuration:0.2 animations:^(void) {
         [cell resizeWithToggle];
         [self layoutFrame];
@@ -337,10 +341,13 @@ static CGFloat skip = 3;
     IBXTableViewDataItem * item = [dataSource itemAtIndex:index];
     IBXTableViewCell * cell = [self allocCellWithItem:item];
     [item updateCell:cell];
+    
     [_cells insertObject:cell atIndex:index];
+    
     CGRect frame = cell.frame;
     frame.origin.y -= frame.size.height;
     cell.frame = frame;
+    
     [self addSubview:cell];
     [cell release];
     

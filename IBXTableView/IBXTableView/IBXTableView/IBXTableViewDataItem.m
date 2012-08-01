@@ -34,6 +34,11 @@
     [cell layoutSubviews];
 }
 
+- (void)updateCellButtons:(IBXTableViewCell *)cell
+{
+    
+}
+
 - (void)dealloc
 {
     [_title release];

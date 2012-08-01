@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+#import "IBXOptionButton.h"
 
 #define IBX_APPLICATION_BAR_DEFAULT_HEIGHT 44
 #define IBX_APPLICATION_BAR_DEFAULT_WIDTH  320
@@ -36,8 +37,13 @@
 @property (nonatomic, assign) id<IBXApplicationBarDelegate> barDelegate;
 
 - (void)addDisplayButton:(UIImage *)icon withTitle:(NSString *)title withTag:(NSInteger)tag;
-- (void)addOptionButton:(NSString *)title withTag:(NSInteger)tag;
-- (void)addOptionButton:(NSString *)title withIcon:(UIImage *)image withTag:(NSInteger)tag;
+
+- (void)addOptionButton:(IBXOptionButton *)optionButton;
+- (void)insertOptionButton:(IBXOptionButton *)optionButton atIndex:(NSUInteger)index;
+- (NSUInteger)indexOfOptionButton:(IBXOptionButton *)optionButton;
+- (void)removeOptionButton:(IBXOptionButton *)optionButton;
+- (NSUInteger)countOfOptionButtons;
+
 - (void)showMessage:(NSString *)message withIcon:(UIImage *)icon withTag:(NSInteger)tag;
 
 @end

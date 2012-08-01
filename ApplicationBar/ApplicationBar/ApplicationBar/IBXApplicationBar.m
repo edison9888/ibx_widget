@@ -127,6 +127,11 @@
 
 - (void)showView
 {
+    for (IBXOptionButton * optionButton in _optionButtons) {
+        [optionButton updateTitle];
+    }
+    
+    
     [UIView animateWithDuration:DEFAULT_DURATION animations:^(void) {
         CGRect frame = self.frame;
         frame.size.height = IBX_APPLICATION_BAR_DEFAULT_HEIGHT + [self heightForOptionButtons] + HIDE_BUTTON_HEIGHT;
@@ -137,6 +142,7 @@
         frame.size.height = IBX_APPLICATION_BAR_DEFAULT_HEIGHT + [self heightForOptionButtons];
         frame.origin.y += HIDE_BUTTON_HEIGHT;
         _contentView.frame = frame;
+        _contentView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:[_optionButtons count] > 2 ? 0.9 : 1];
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:DEFAULT_DURATION animations:^{
             _hideButton.alpha = HIDE_BUTTON_ALPHA;
@@ -159,6 +165,7 @@
             frame = _contentView.frame;
             frame.size.height = IBX_APPLICATION_BAR_DEFAULT_HEIGHT + [self heightForOptionButtons];
             frame.origin.y -= HIDE_BUTTON_HEIGHT;
+            _contentView.backgroundColor = [UIColor blackColor];
             _contentView.frame = frame;
         }];
     }];
@@ -293,20 +300,17 @@
 
 - (void)addOptionButton:(NSString *)title withIcon:(UIImage *)image withTag:(NSInteger)tag
 {
-    CGFloat height = [self heightForOptionButtons] + IBX_APPLICATION_BAR_DEFAULT_HEIGHT;
-    
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.tag = tag;
-    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [button setTitle:title forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
-    if (image != nil) { 
-        [button setImage:image forState:UIControlStateNormal];
-        [button setTitleEdgeInsets:UIEdgeInsetsMake(0, DEFAULT_PADDING, 0, 0)];
-    }
+   
+   [self addOptionButtonToUI:button];
+}   
+
+- (void)addOptionButtonToUI:(UIButton *)button
+{
+    CGFloat height = [self heightForOptionButtons] + IBX_APPLICATION_BAR_DEFAULT_HEIGHT;
     
-    [button sizeToFit];
     button.frame = CGRectMake(DEFAULT_PADDING, height,
                               self.frame.size.width - 5 * DEFAULT_PADDING, 
                               IBX_APPLICATION_BAR_BUTTON_HEIGHT);
@@ -314,10 +318,36 @@
                action:@selector(optionButtonClicked:) 
      forControlEvents:UIControlEventTouchUpInside];
     
+    
     [_optionButtons addObject:button];
     [_contentView addSubview:button];
     
     _optionButton.hidden = ([_optionButtons count] == 0);    
+}
+
+- (void)addOptionButton:(IBXOptionButton *)optionButton
+{
+    [self addOptionButtonToUI:optionButton];
+}
+
+- (void)insertOptionButton:(IBXOptionButton *)optionButton atIndex:(NSUInteger)index
+{
+    [_optionButtons insertObject:optionButton atIndex:index];
+}
+
+- (NSUInteger)indexOfOptionButton:(IBXOptionButton *)optionButton
+{
+    return [_optionButtons indexOfObject:optionButton];
+}
+
+- (void)removeOptionButton:(IBXOptionButton *)optionButton
+{
+    [_optionButtons removeObject:optionButton];
+}
+
+- (NSUInteger)countOfOptionButtons
+{
+    return [_optionButtons count];
 }
 
 #pragma - UIView

@@ -19,6 +19,7 @@
 @implementation IBXTableViewItem
 
 @synthesize title = _title;
+@synthesize itemDetail = _itemDetail;
 @synthesize detail = _detail;
 @synthesize itemClicked = _itemClicked;
 @synthesize accessoryType = _accessoryType;
@@ -26,7 +27,7 @@
 - (void)dealloc
 {
     [_title release];
-    [_detail release];
+    [_itemDetail release];
     [_itemClicked release];
     
     [super dealloc];
@@ -45,7 +46,7 @@
 - (void)layout:(UITableViewCell *)cell
 {
     cell.textLabel.text = self.title;
-    cell.detailTextLabel.text = [self.detail length] > 0 ? self.detail : @"";
+    cell.detailTextLabel.text = _itemDetail != nil ? _itemDetail() : ([_detail length] > 0 ? _detail : @"");
     cell.accessoryView = nil;
     cell.accessoryType = self.accessoryType;
 }

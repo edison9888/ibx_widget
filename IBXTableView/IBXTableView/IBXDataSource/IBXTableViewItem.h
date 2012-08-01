@@ -11,8 +11,9 @@
 @interface IBXTableViewItem : NSObject
 
 @property (nonatomic, copy) NSString * title;
-@property (nonatomic, copy) NSString * detail;
 @property (nonatomic, copy) void (^itemClicked)();
+@property (nonatomic, retain) NSString * (^itemDetail)();
+@property (nonatomic, copy) NSString * detail;
 @property (nonatomic, assign) UITableViewCellAccessoryType accessoryType;
 
 - (void)layout:(UITableViewCell *)cell;

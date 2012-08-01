@@ -84,11 +84,13 @@
         [_applicationBar addDisplayButton:[UIImage imageNamed:@"icon-plus.png"]
                                 withTitle:@"Create" 
                                   withTag:TAG_FOR_CREATE_BUTTON];
-        [_applicationBar addOptionButton:@"Feedback"
-                                 withTag:TAG_FOR_FEEDBACK_BUTTON];
-        [_applicationBar addOptionButton:@"Button with icon" 
-                                withIcon:[UIImage imageNamed:@"icon-plus.png"] 
-                                 withTag:TAG_FOR_PLUS_BUTTON];
+        
+        IBXOptionButton * optionButton = [[IBXOptionButton alloc] init];
+        [optionButton setGetCurrentTitle:^NSString *{
+            return @"llll";
+        }];
+        [_applicationBar addOptionButton:optionButton];
+        [optionButton release];
         
         _applicationBar.barDelegate = self;
     
